@@ -1,0 +1,22 @@
+# Bỏ file môi trường
+**/config.env
+**/.env
+**/.env.*
+
+# Bỏ thư mục node_modules cho cả frontend và backend
+**/node_modules/
+
+# Build files
+**/dist/
+**/build/
+**/.next/
+**/out/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Hệ thống
+.DS_Store
+Thumbs.db
