@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lịch sử</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" href="history.css" />
+
+    <style></style>
+  </head>
+  <body>
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <h3>IOT</h3>
+      </div>
+      <div class="sidebar-menu">
+        <a href="../dashboard/dashboard.html">
+          <i class="bi bi-house-door"></i>
+          <span>Trang chủ</span>
+        </a>
+        <a href="../device_history/history.html" class="active">
+          <i class="bi bi-clock-history"></i>
+          <span>Lịch sử hoạt động</span>
+        </a>
+        <a href="../sensor_data/sensorData.html">
+          <i class="bi bi-graph-up"></i>
+          <span>Thống kê dữ liệu</span>
+        </a>
+        <a href="../profile/profile.html">
+          <i class="bi bi-person"></i>
+          <span>Tài khoản</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="main-content">
+      <div class="row">
+        <div class="col-md-5">
+          <div class="search-container">
+            <input
+              type="text"
+              class="form-control"
+              id="searchTime"
+              placeholder="Nhập thời gian"
+            />
+            <button
+              class="btn btn-primary"
+              onclick="filterByTime()"
+              title="Tìm kiếm"
+            >
+              <i class="bi bi-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+          <thead class="table-dark">
+            <tr>
+              <th>ID</th>
+              <th onclick="sortTable(1)" style="cursor: pointer">
+                Tên thiết bị ⬍
+              </th>
+              <th onclick="sortTable(2)" style="cursor: pointer">
+                Hành động ⬍
+              </th>
+              <th onclick="sortTable(3)" style="cursor: pointer">
+                Thời gian ⬍
+              </th>
+            </tr>
+          </thead>
+          <tbody id="table-body"></tbody>
+        </table>
+      </div>
+
+      <div class="d-flex justify-content-end align-items-center mt-3">
+        <div class="d-flex align-items-center gap-3 me-4">
+          <span
+            ><span id="range-start">1</span>-<span id="range-end">5</span> trong
+            tổng <span id="total-items">8</span>
+          </span>
+          <select
+            class="form-select form-select-sm w-auto"
+            id="per-page-select"
+            onchange="changePerPage()"
+            title="#"
+          >
+            <option value="5">5 / page</option>
+            <option value="10">10 / page</option>
+            <option value="20">20 / page</option>
+            <option value="30">30 / page</option>
+            <option value="50">50 / page</option>
+          </select>
+        </div>
+        <div class="d-flex align-items-center">
+          <button
+            class="btn btn-outline-secondary btn-sm me-2"
+            onclick="previousPage()"
+            title="Trang trước"
+          >
+            <i class="bi bi-chevron-left"></i>
+          </button>
+          <div class="btn-group" id="page-numbers"></div>
+          <button
+            class="btn btn-outline-secondary btn-sm ms-2"
+            onclick="nextPage()"
+            title="Trang sau"
+          >
+            <i class="bi bi-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const sampleData = [];
+
+      fetch("http://localhost:5000/api/v1/devices/data")
+        .then((response) => response.json())
+        .then((result) => {
+          const rawData = result.data;
+
+          rawData.forEach((item) => {
+            sampleData.push({
+              id: item.id,
+              device: item.device_name,
+              action: item.action,
+              time: item.timestamp,
+            });
+          });
+
+          // Cập nhật dữ liệu hiển thị
+          filteredData = [...sampleData];
+          displayData();
+        })
+        .catch((error) => {
+          console.error("Lỗi khi gọi API:", error);
+        });
+      let currentPage = 1;
+      let perPage = 5;
+      let filteredData = [...sampleData];
+      let sortDirection = {};
+
+      function displayData() {
+        const startIndex = (currentPage - 1) * perPage;
+        const endIndex = Math.min(startIndex + perPage, filteredData.length);
+        const tableBody = document.getElementById("table-body");
+
+        tableBody.innerHTML = "";
+        filteredData.slice(startIndex, endIndex).forEach((item) => {
+          const actionText =
+            item.action === "on" || item.action === "1"
+              ? "Bật"
+              : item.action === "off" || item.action === "0"
+              ? "Tắt"
+              : item.action;
+
+          const row = document.createElement("tr");
+          row.innerHTML = `
+      <td>${item.id}</td>
+      <td>${item.device}</td>
+      <td>${actionText}</td>
+      <td>${item.time}</td>
+    `;
+          tableBody.appendChild(row);
+        });
+
+        updatePagination();
+      }
+
+      function updatePagination() {
+        const totalPages = Math.ceil(filteredData.length / perPage);
+        const startIndex = (currentPage - 1) * perPage;
+        const endIndex = Math.min(startIndex + perPage, filteredData.length);
+
+        document.getElementById("range-start").textContent = startIndex + 1;
+        document.getElementById("range-end").textContent = endIndex;
+        document.getElementById("total-items").textContent =
+          filteredData.length;
+
+        const pageNumbers = document.getElementById("page-numbers");
+        pageNumbers.innerHTML = "";
+
+        const maxPageButtons = 5;
+        let startPage = Math.max(
+          1,
+          currentPage - Math.floor(maxPageButtons / 2)
+        );
+        let endPage = startPage + maxPageButtons - 1;
+
+        if (endPage > totalPages) {
+          endPage = totalPages;
+          startPage = Math.max(1, endPage - maxPageButtons + 1);
+        }
+
+        // Nút "First"
+        const firstBtn = document.createElement("button");
+        firstBtn.className = "btn btn-sm btn-outline-secondary me-1";
+        firstBtn.textContent = "Đầu";
+        firstBtn.onclick = () => goToPage(1);
+        firstBtn.disabled = currentPage === 1;
+        pageNumbers.appendChild(firstBtn);
+
+        // Các nút số trang
+        for (let i = startPage; i <= endPage; i++) {
+          const button = document.createElement("button");
+          button.className = `btn btn-sm ${
+            currentPage === i ? "btn-primary" : "btn-outline-secondary"
+          }`;
+          button.textContent = i;
+          button.onclick = () => goToPage(i);
+          pageNumbers.appendChild(button);
+        }
+
+        // Nút "Last"
+        const lastBtn = document.createElement("button");
+        lastBtn.className = "btn btn-sm btn-outline-secondary ms-1";
+        lastBtn.textContent = "Cuối";
+        lastBtn.onclick = () => goToPage(totalPages);
+        lastBtn.disabled = currentPage === totalPages;
+        pageNumbers.appendChild(lastBtn);
+      }
+
+      function changePerPage() {
+        perPage = parseInt(document.getElementById("per-page-select").value);
+        currentPage = 1;
+        displayData();
+      }
+
+      function previousPage() {
+        if (currentPage > 1) {
+          currentPage--;
+          displayData();
+        }
+      }
+
+      function nextPage() {
+        const totalPages = Math.ceil(filteredData.length / perPage);
+        if (currentPage < totalPages) {
+          currentPage++;
+          displayData();
+        }
+      }
+
+      function goToPage(page) {
+        currentPage = page;
+        displayData();
+      }
+
+      function filterByTime() {
+        const searchTime = document
+          .getElementById("searchTime")
+          .value.toLowerCase();
+        filteredData = sampleData.filter((item) =>
+          item.time.toLowerCase().includes(searchTime)
+        );
+        currentPage = 1;
+        displayData();
+      }
+
+      function sortTable(colIndex) {
+        sortDirection[colIndex] = !sortDirection[colIndex];
+
+        filteredData.sort((a, b) => {
+          let valueA = Object.values(a)[colIndex];
+          let valueB = Object.values(b)[colIndex];
+
+          if (colIndex === 3) {
+            return sortDirection[colIndex]
+              ? new Date(valueA) - new Date(valueB)
+              : new Date(valueB) - new Date(valueA);
+          }
+
+          return sortDirection[colIndex]
+            ? valueA.localeCompare(valueB)
+            : valueB.localeCompare(valueA);
+        });
+
+        displayData();
+      }
+
+      // displayData();
+    </script>
+  </body>
+</html>

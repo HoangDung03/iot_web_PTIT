@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trang cá nhân</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" href="profile.css" />
+    <style></style>
+  </head>
+  <body>
+    <!-- Keeping original sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <h3>IOT</h3>
+      </div>
+      <div class="sidebar-menu">
+        <a href="../dashboard/dashboard.html">
+          <i class="bi bi-house-door"></i>
+          <span>Trang chủ</span>
+        </a>
+        <a href="../device_history/history.html">
+          <i class="bi bi-clock-history"></i>
+          <span>Lịch sử hoạt động</span>
+        </a>
+        <a href="../sensor_data/sensorData.html">
+          <i class="bi bi-graph-up"></i>
+          <span>Thống kê dữ liệu</span>
+        </a>
+        <a href="../profile/profile.html" class="active">
+          <i class="bi bi-person"></i>
+          <span>Tài khoản</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Enhanced main content -->
+    <div class="main-content">
+      <div class="container py-4">
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="profile-card p-4 text-center">
+              <img
+                src="./wallpaperflare.com_wallpaper.jpg"
+                class="profile-image"
+                alt="Ảnh đại diện"
+              />
+              <h4 class="mt-4 mb-2">Hoàng Hữu Tiến Dũng</h4>
+              <div class="student-info">
+                <i class="bi bi-person-badge me-2"></i>
+                <span>B21DCPT081</span>
+              </div>
+              <div class="social-links">
+                <a
+                  href="https://github.com/HoangDung03"
+                  title="Github"
+                  target="_blank"
+                  rel="noopener"
+                  ><i class="bi bi-github fs-4"></i
+                ></a>
+                <a
+                  href="mailto: DungHHT.B21PT081@stu.ptit.edu.vn"
+                  title="Email"
+                  target="_blank"
+                  rel="noopener"
+                  ><i class="bi bi-envelope fs-4"></i
+                ></a>
+                <a
+                  href="https://drive.google.com/drive/folders/11jpqGkCH34fdTujO16YLmYXqy9aefNKj?usp=sharing"
+                  title="Tài liệu"
+                  target="_blank"
+                  rel="noopener"
+                  ><i class="bi bi-file-earmark-text fs-4"></i
+                ></a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="info-card p-4">
+              <h3 class="mb-4">
+                <i class="bi bi-person-lines-fill me-2"></i>
+                Thông tin cá nhân
+              </h3>
+              <form>
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="form-label">
+                      <i class="bi bi-mortarboard me-2"></i>Tên lớp
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      value="D21PTDPT"
+                      readonly
+                      title="Lớp"
+                    />
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">
+                      <i class="bi bi-telephone me-2"></i>Số điện thoại
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      value="0123456789"
+                      readonly
+                      title="Điện thoại"
+                    />
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label">
+                      <i class="bi bi-envelope me-2"></i>Email
+                    </label>
+                    <input
+                      type="email"
+                      class="form-control"
+                      value="DungHHT.B21PT081@stu.ptit.edu.vn"
+                      readonly
+                      title="Email"
+                    />
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label">
+                      <i class="bi bi-geo-alt me-2"></i>Địa chỉ
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      value="Hà Nội"
+                      readonly
+                      title="Địa chỉ"
+                    />
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">
+                      <i class="bi bi-github me-2"></i>Github
+                    </label>
+                    <div class="link-group">
+                      <input
+                        type="url"
+                        class="form-control"
+                        value="Git"
+                        readonly
+                        title="Git"
+                      />
+                      <a
+                        href="https://github.com/HoangDung03/iot-web.git"
+                        target="_blank"
+                        class="link-icon"
+                        title="Mở Github"
+                        rel="noopener"
+                      >
+                        <i class="bi bi-box-arrow-up-right"></i>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">
+                      <i class="bi bi-file-earmark-text me-2"></i>Tài liệu
+                    </label>
+                    <div class="link-group">
+                      <input
+                        type="url"
+                        class="form-control"
+                        value="Docs"
+                        readonly
+                        title="Tài liệu"
+                      />
+                      <a
+                        href="https://drive.google.com/drive/folders/11jpqGkCH34fdTujO16YLmYXqy9aefNKj?usp=sharing"
+                        target="_blank"
+                        class="link-icon"
+                        title="Mở tài liệu"
+                        rel="noopener"
+                      >
+                        <i class="bi bi-box-arrow-up-right"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

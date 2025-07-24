@@ -1,0 +1,101 @@
+.sidebar {
+  background: linear-gradient(135deg, #1e272e 0%, #2d3436 100%);
+  color: white;
+  height: 100vh;
+  padding: 20px;
+  position: fixed;
+  width: 250px;
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.sidebar-header {
+  padding: 20px 0;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.sidebar-header h3 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 0;
+  padding-bottom: 15px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-menu {
+  margin-top: 30px;
+}
+
+.sidebar-menu a {
+  color: #b8c6db;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  font-size: 15px;
+}
+
+.sidebar-menu a:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  transform: translateX(5px);
+}
+
+.sidebar-menu a.active {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-weight: 500;
+}
+
+.sidebar-menu i {
+  margin-right: 12px;
+  font-size: 18px;
+  width: 20px;
+  text-align: center;
+}
+
+.main-content {
+  margin-left: 250px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+}
+
+.search-container {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.search-container .btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  border-radius: 0 4px 4px 0;
+}
+
+.pagination {
+  margin: 0;
+}
+
+.pagination .page-link {
+  border-radius: 0;
+  margin: 0 2px;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+.per-page-selector {
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  padding: 5px 10px;
+}
